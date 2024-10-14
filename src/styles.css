@@ -1,0 +1,31 @@
+* {
+    margin: 0px;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh
+}
+
+.main {
+    flex: auto;
+    background-color: beige;
+}
+
+.todo-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 25px;
+    gap: 25px;
+    
+}
+
+.todo-card {
+    padding: 25px;
+    background-color: aliceblue;
+    border: 1px solid black;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+}
