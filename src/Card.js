@@ -1,68 +1,70 @@
 export default class Card {
-    constructor(todo) {
+    constructor(todo, domElementFactory) {
         this.todo = todo;
-        this.card = document.createElement('div');
-        this.card.className = 'todo-card';
-        this.createCardElements();
-    }
-    
-    createCardElements() {
-        const elements = [
-            {labelText: 'Title: ', id: 'title', type: 'text', elementType: 'input', data: this.todo.title},
-            {labelText: 'Description: ', id: 'description', type: 'text', elementType: 'input', data: this.todo.description},
-            {labelText: 'Notes: ', id: 'notes', type: 'text', elementType: 'input', data: this.todo.notes},
-            {labelText: 'Due Date: ', id: 'duedate', type: 'date', elementType: 'input', data: this.todo.dueDate},
-            {labelText: 'Priority: ', id: 'priority', type: null, elementType: 'select', data: this.todo.priority},
-            {labelText: 'Completed: ', id: 'isComplete', type: 'checkbox', elementType: 'input', data: this.todo.isComplete},
-        ]
+        this.card = domElementFactory.createDiv('todo-card');
 
-        elements.forEach(({ labelText, id, type, elementType, data}) => {
-            const element = elementType === 'select' ? new Select(labelText, id, elementType, data) : new Input(labelText, id, type, elementType, data);
-            this.appendLabelAndElement(element);
+        this.titleLabel = domElementFactory.createLabel('title', 'Title:');
+        this.titleInput = domElementFactory.createInput('title', 'text', todo.title, 'Title');
+
+        this.descriptionLabel = domElementFactory.createLabel('description', 'Description:');
+        this.descriptionInput = domElementFactory.createInput('description', 'text', todo.description, 'Description');
+
+        this.notesLabel = domElementFactory.createLabel('notes', 'Notes:');
+        this.notesInput = domElementFactory.createInput('notes', 'text', todo.notes, 'Notes');
+
+        this.dueDateLabel = domElementFactory.createLabel('duedate', 'Due Date:');
+        this.dueDateInput = domElementFactory.createInput('duedate', 'date', todo.dueDate);
+
+        this.priorityLabel = domElementFactory.createLabel('priority', 'Priority:');
+        this.prioritySelect = domElementFactory.createSelect('priority', ['Low', 'Medium', 'High'], todo.priority);
+
+        this.isCompleteLabel = domElementFactory.createLabel('isComplete', 'Completed:');
+        this.isCompleteInput = domElementFactory.createInput('isComplete', 'checkbox', todo.isComplete, '');
+
+        this.attachEventListeners();
+        this.appendCardElements();
+    }
+
+    appendCardElements() {
+        this.card.append(
+            this.titleLabel, this.titleInput,
+            this.descriptionLabel, this.descriptionInput,
+            this.notesLabel, this.notesInput,
+            this.dueDateLabel, this.dueDateInput,
+            this.priorityLabel, this.prioritySelect,
+            this.isCompleteLabel, this.isCompleteInput
+        )
+    }
+
+    attachEventListeners() {
+        this.titleInput.addEventListener('change', (event) => {
+            this.todo.title = event.target.value;
+            console.log('Todo title changed:', this.todo.title);
         })
-    }
 
-    appendLabelAndElement(inputElement) {
-        this.card.appendChild(inputElement.label);
-        this.card.appendChild(inputElement.element);
-    }
-}
-
-class Element {
-    constructor(labelText, id, elementType, data) {
-        this.label = document.createElement('label');
-        this.label.htmlFor = id;
-        this.label.textContent = labelText;
-        this.element = document.createElement(elementType);
-        this.element.id = id;
-        this.element.placeholder = data;
-    }
-}
-
-class Input extends Element {
-    constructor(labelText, id, type, elementType, data) {
-        super(labelText, id, elementType, data);
-        this.element.type = type;
-        if (data === true && type === 'checkbox') {
-            this.element.checked = true;
-        };
-        if (type === 'date') {
-            this.element.valueAsDate = new Date(data);
-        }
-    }
-}
-
-class Select extends Element {
-    constructor(labelText, id, elementType, data) {
-        super(labelText, id, elementType); 
-        this.options = ['Low Priority', 'Medium Priority', 'High Priority']
-        this.options.forEach(optionText => {
-            const optionElement = document.createElement('option');
-            optionElement.textContent = optionText;
-            if (optionText === data) {
-                optionElement.selected = "Selected"
-            }
-            this.element.appendChild(optionElement);
+        this.descriptionInput.addEventListener('change', (event) => {
+            this.todo.description = event.target.value;
+            console.log('Todo description changed:', this.todo.description);
         })
+
+        this.notesInput.addEventListener('change', (event) => {
+            this.todo.notes = event.target.value;
+            console.log('Todo notes changed:', this.todo.notes);
+        })
+
+        this.dueDateInput.addEventListener('change', (event) => {
+            this.todo.dueDate = event.target.value;
+            console.log('Todo dueDate changed:', this.todo.dueDate);
+        })
+
+        this.prioritySelect.addEventListener('change', (event) => {
+            this.todo.priority = event.target.value;
+            console.log('Todo priority changed:', this.todo.priority);
+        })
+
+        this.isCompleteInput.addEventListener('change', (event) => {
+            this.todo.isComplete = event.target.checked
+            console.log('Todo isComplete changed:', this.todo.isComplete);
+        });
     }
 }
