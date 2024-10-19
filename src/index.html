@@ -7,17 +7,33 @@
 </head>
 <body>
     <div class="header">
-        <h1>My To-Do List</h1>
+        <p>-</p>
     </div>
     <div class="main">
-        <label for="projects">Choose your Project</label>
-        <select name="projects" id="projects">
-            <option value="default">Default</option>
-        </select>
-        <div class="todo-cards"></div>
+        <div class="sidebar">
+            <button class="add-todo-button">New To-Do</button>
+            <div class="filters">
+                <p class="filter-all">All</p>
+                <p class="filter-today">Today</p>
+                <p class="filter-upcoming">Upcoming</p>
+                <p class="completed">Completed</p>
+            </div>
+            <div class="projects">
+                <p>Projects</p>
+                <button class="add-project-button">New Project</button>
+
+                <select name="project-select" id="project-select"></select>
+
+
+            </div>
+        </div>
+        <div class="body">
+            <div class="cards"></div>
+        </div>
+
     </div>
     <div class="footer">
-        <p>Chris Peel 2024</p>
+        <p>-</p>
     </div>
 </body>
 </html>

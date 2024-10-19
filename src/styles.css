@@ -9,18 +9,27 @@ body {
 
 .main {
     flex: auto;
+    display: flex;
     background-color: beige;
 }
 
-.todo-cards {
-    display: grid;
+.projects {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
     grid-template-columns: 1fr 1fr;
     padding: 25px;
     gap: 25px;
-    
 }
 
 .todo-card {
+    height: fit-content;
+    width: min-content;
     padding: 25px;
     background-color: aliceblue;
     border: 1px solid black;

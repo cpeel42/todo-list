@@ -6,6 +6,13 @@ export default class DomElementFactory {
         return div;
     }
 
+    createButton(className, text) {
+        const button = document.createElement('button');
+        button.classList.add(className);
+        button.textContent = text;
+        return button;
+    }
+
     createLabel(forAttr, text) {
         const label = document.createElement('label');
         label.setAttribute('for', forAttr);
@@ -28,17 +35,25 @@ export default class DomElementFactory {
         return input;
     }
 
-    createSelect(id, options, selectedValue) {
+    createSelect(id, optionList, selectedValue) {
         const select = document.createElement('select');
         select.id = id;
-        options.forEach(optionValue => {
-            const option = document.createElement('option');
-            option.textContent = optionValue;
-            if (optionValue === selectedValue) {
-                option.selected = true;
-            }
+
+        optionList.forEach(optionName => {
+            const isSelected = (optionName === selectedValue) ? true : false;
+            let option = this.createOption(optionName, isSelected);
             select.appendChild(option);
         });
+
         return select;
+    }
+
+    createOption(name, isSelected) {
+        const option = document.createElement('option');
+        if (isSelected == true) {
+            option.selected = true
+        }
+        option.textContent = name;
+        return option;
     }
 }
