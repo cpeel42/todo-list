@@ -1,74 +1,60 @@
-export default class Card {
-    constructor(project, todo, domElementFactory) {
-        this.project = project;
-        this.todo = todo;
-        this.card = domElementFactory.createDiv('todo-card');
+export default function card (project, todo) {
+    const template = document.getElementById('todo-card-template');
+    const cardFragment = document.importNode(template.content, true)
+    const card = cardFragment.firstElementChild;
 
-        this.titleLabel = domElementFactory.createLabel('title', 'Title:');
-        this.titleInput = domElementFactory.createInput('title', 'text', todo.title, 'Title');
+    const titleInput = card.querySelector('#title-input')
+    const descriptionInput = card.querySelector('#description-input')
+    const notesInput = card.querySelector('#notes-input')
+    const duedateInput = card.querySelector('#duedate-input')
+    const prioritySelect = card.querySelector('#priority-select')
+    const completeInput = card.querySelector('#complete-input')
+    const deleteButton = card.querySelector('#delete-button')
 
-        this.descriptionLabel = domElementFactory.createLabel('description', 'Description:');
-        this.descriptionInput = domElementFactory.createInput('description', 'text', todo.description, 'Description');
+    titleInput.value = todo.title;
+    descriptionInput.value = todo.description;
+    notesInput.value = todo.notes;
+    duedateInput.value = todo.dueDate;
+    completeInput.checked = todo.isComplete;
 
-        this.notesLabel = domElementFactory.createLabel('notes', 'Notes:');
-        this.notesInput = domElementFactory.createInput('notes', 'text', todo.notes, 'Notes');
+    const options = [...card.querySelectorAll('#priority-select option')];
 
-        this.dueDateLabel = domElementFactory.createLabel('duedate', 'Due Date:');
-        this.dueDateInput = domElementFactory.createInput('duedate', 'date', todo.dueDate);
+    options.forEach(option => {
+        if (option.value === todo.priority) {
+            option.selected = true;
+        }
+    });
 
-        this.priorityLabel = domElementFactory.createLabel('priority', 'Priority:');
-        this.prioritySelect = domElementFactory.createSelect('priority', ['---', 'Low', 'Medium', 'High'], todo.priority);
+    titleInput.addEventListener('change', (event) => {
+        todo.title = event.target.value;
+    })
 
-        this.isCompleteLabel = domElementFactory.createLabel('isComplete', 'Completed:');
-        this.isCompleteInput = domElementFactory.createInput('isComplete', 'checkbox', todo.isComplete, '');
+    descriptionInput.addEventListener('change', (event) => {
+        todo.description = event.target.value;
+    })
 
-        this.deleteLabel = domElementFactory.createLabel('delete', 'Delete: ')
-        this.deleteButton = domElementFactory.createButton('delete-button', 'Delete');
+    notesInput.addEventListener('change', (event) => {
+        todo.notes = event.target.value;
+    })
 
-        this.attachEventListeners();
-        this.appendCardElements();
-    }
+    duedateInput.addEventListener('change', (event) => {
+        todo.dueDate = event.target.value;
+    })
 
-    appendCardElements() {
-        this.card.append(
-            this.titleLabel, this.titleInput,
-            this.descriptionLabel, this.descriptionInput,
-            this.notesLabel, this.notesInput,
-            this.dueDateLabel, this.dueDateInput,
-            this.priorityLabel, this.prioritySelect,
-            this.isCompleteLabel, this.isCompleteInput,
-            this.deleteLabel, this.deleteButton
-        )
-    }
+    prioritySelect.addEventListener('change', (event) => {
+        todo.priority = event.target.value;
+    })
 
-    attachEventListeners() {
-        this.titleInput.addEventListener('change', (event) => {
-            this.todo.title = event.target.value;
-        })
+    completeInput.addEventListener('change', (event) => {
+        todo.isComplete = event.target.checked
+    });
+    
+    deleteButton.addEventListener('click', (event) => {
+        card.remove();
+        console.log(project)
+        project.todoList = project.todoList.filter(t => t !== todo);
+        console.log(project)
+    })
 
-        this.descriptionInput.addEventListener('change', (event) => {
-            this.todo.description = event.target.value;
-        })
-
-        this.notesInput.addEventListener('change', (event) => {
-            this.todo.notes = event.target.value;
-        })
-
-        this.dueDateInput.addEventListener('change', (event) => {
-            this.todo.dueDate = event.target.value;
-        })
-
-        this.prioritySelect.addEventListener('change', (event) => {
-            this.todo.priority = event.target.value;
-        })
-
-        this.isCompleteInput.addEventListener('change', (event) => {
-            this.todo.isComplete = event.target.checked
-        });
-        
-        this.deleteButton.addEventListener('click', (event) => {
-            this.card.remove();
-            this.project.todoList = this.project.todoList.filter(todo => todo !== this.todo);
-        })
-    }
+    return card;
 }

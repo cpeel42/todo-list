@@ -6,34 +6,56 @@
     <title>ToDo List</title>
 </head>
 <body>
-    <div class="header">
-        <p>-</p>
-    </div>
-    <div class="main">
-        <div class="sidebar">
-            <button class="add-todo-button">New To-Do</button>
-            <div class="filters">
-                <p class="filter-all">All</p>
-                <p class="filter-today">Today</p>
-                <p class="filter-upcoming">Upcoming</p>
-                <p class="completed">Completed</p>
-            </div>
-            <div class="projects">
-                <p>Projects</p>
-                <button class="add-project-button">New Project</button>
+    <div class="sidebar">
+        <h3>Tasks</h3>
+        <ul class="filters">
+            <li class="filter-all">All</li>
+            <li class="filter-today">Today</li>
+            <li class="filter-upcoming">Upcoming</li>
+            <li class="completed">Completed</li>
+        </ul>
+        <ul>
+            <li class="add-todo-button">New Task</li>
+        </ul>
 
-                <select name="project-select" id="project-select"></select>
+        <div class="projects">
+            <h3>Projects</h3>
+            <ul class="projects-list"></ul>
+            <ul>
+                <li class="add-project-button">New Project</li>
+            </ul>
 
-
-            </div>
         </div>
+    </div>
+
+    <div class="main">
+        <h1 class="project-title"></h1>
         <div class="body">
             <div class="cards"></div>
         </div>
-
     </div>
-    <div class="footer">
-        <p>-</p>
-    </div>
+    <template id="todo-card-template">
+        <div class="todo-card">
+            <label for="title-input">Title:</label>
+            <input id="title-input" type="text" placeholder="Title">
+            <label for="description-input">Description:</label>
+            <input id="description-input" type="text" placeholder="Description">
+            <label for="notes-input">Notes:</label>
+            <input id="notes-input" type="text" placeholder="Notes:">
+            <label for="duedate-input">Due Date:</label>
+            <input id="duedate-input" type="date">
+            <label for="priority-select">Priority:</label>
+            <select id="priority-select">
+                <option>---</option>
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+            </select>
+            <label for="complete-input">Completed:</label>
+            <input id="complete-input" type="checkbox">
+            <label for="delete-button">Delete:</label>
+            <button id="delete-button">Delete</button>
+        </div>
+    </template>
 </body>
 </html>
