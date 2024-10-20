@@ -1,4 +1,6 @@
-export default function card (project, todo) {
+import { projects } from "./Projects";
+
+export default function card (todo) {
     const template = document.getElementById('todo-card-template');
     const cardFragment = document.importNode(template.content, true)
     const card = cardFragment.firstElementChild;
@@ -51,9 +53,11 @@ export default function card (project, todo) {
     
     deleteButton.addEventListener('click', (event) => {
         card.remove();
-        console.log(project)
-        project.todoList = project.todoList.filter(t => t !== todo);
-        console.log(project)
+        projects.forEach(project => {
+            project.todoList = project.todoList.filter(searchedTodo => {
+                return searchedTodo !== todo;
+            });
+        });
     })
 
     return card;
